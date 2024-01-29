@@ -1,0 +1,310 @@
+openapi: 3.0.3
+info:
+  title: Customer and Product Management
+  description: Endpoint for customer and product management
+  version: 1.0.0
+
+paths:
+  /customers:
+    get:
+      summary: Get all customers
+      operationId: getCustomers
+      tags:
+        - customers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+              example:
+                id: 1
+                firstName: John
+                lastName: Doe
+                officeEmail: john_doe@officemail.com
+                personalEmail: john_doe@gmail.com
+                familyMembers: [Jane Doe, Jonny Doe]
+    post:
+      summary: Create a customer
+      operationId: createCustomer
+      tags:
+        - customers
+      requestBody:
+        description: Customer object that needs to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+            example:
+              firstName: Jane
+              lastName: Doe
+              officeEmail: jane_doe@officemail.com
+              personalEmail: jane_doe@gmail.com
+              familyMembers: [Jon Doe, Jonny Doe]
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              example:
+                id: 2
+                firstName: Jane
+                Last_Name: Doe
+                officeEmail: jane_doe@officemail.com
+                personalEmail: jane_doe@gmail.com
+                familyMembers: [Jon Doe, Jonny Doe]
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+  /customers/{id}:
+    get:
+      summary: Get a customer
+      operationId: getCustomer
+      tags:
+        - customers
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              example:
+                firstName: John
+                lastName: Doe
+                officeEmail: john_doe@officemail.com
+                personalEmail: john_doe@gmail.com
+                familyMembers: [Jane Doe, Jonny Doe]
+        '404':
+          description: Not Found
+    put:
+      summary: Update a customer
+      operationId: updateCustomer
+      tags:
+        - customers
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: Customer object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+            example:
+              firstName: Jane
+              lastName: Does
+              officeEmail: jane_does@officemail.com
+              personalEmail: jane_does@gmail.com
+              familyMembers: [Jon Doe, Jonny Doe]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+              example:
+                id: 2
+                firstName: Jane
+                Last_Name: Does
+                officeEmail: jane_does@officemail.com
+                personalEmail: jane_does@gmail.com
+                familyMembers: [Jon Doe, Jonny Doe]
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+    delete:
+      summary: Delete a customer
+      operationId: deleteCustomer
+      tags:
+        - customers
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description:
+            Not Found
+  /products:
+    get:
+      summary: Get all products
+      operationId: getProducts
+      tags:
+        - products
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+              example:
+                id: 1
+                bookTitle: The Lord of the Rings
+                bookPrice: 10.99
+                bookQuantity: 5
+    post:
+      summary: Create a product
+      operationId: createProduct
+      tags:
+        - products
+      requestBody:
+        description: Product object that needs to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              bookTitle: Harry Potter
+              bookPrice: 19.99
+              bookQuantity: 2
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                id: 2
+                bookTitle: Harry Potter
+                bookPrice: 19.99
+                bookQuantity: 2
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+  /products/{id}:
+    get:
+      summary: Get a product
+      operationId: getProduct
+      tags:
+        - products
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                bookTitle: The Lord of the Rings
+                bookPrice: 10.99
+                bookQuantity: 5
+        '404':
+          description: Not Found
+    put:
+      summary: Update a product
+      operationId: updateProduct
+      tags:
+        - products
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        description: Product object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              bookTitle: Harry The Potter
+              bookPrice: 19.99
+              bookQuantity: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              example:
+                bookTitle: Harry The Potter
+                bookPrice: 19.99
+                bookQuantity: 2
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+    delete:
+      summary: Delete a product
+      operationId: deleteProduct
+      tags:
+        - products
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description:
+            Not Found
+
+components:
+  schemas:
+    Customer:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - officeEmail
+        - personalEmail
+        - familyMembers
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        officeEmail:
+          type: string
+        personalEmail:
+          type: string
+        familyMembers:
+          type: array
+          items:
+            type: string
+    Product:
+      type: object
+      required:
+        - id
+        - bookTitle
+        - bookPrice
+        - bookQuantity
+      properties:
+        id:
+          type: integer
+        bookTitle:
+          type: string
+        bookPrice:
+          type: number
+          format: double
+        bookQuantity:
+          type: integer
+  parameters:
+    id:
+      name: id
+      in: path
+      description: ID of to return
+      required: true
+      schema:
+        type: integer
